@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-type code = "invalid-argument" | "internal-error" | "unauthorized";
+type code = "invalid-argument" | "internal-error" | "unauthorized" | "invalid-jwtToken" ;
 
 const defaultResponses: {
   [key in code]: { message: string; statusCode: number };
@@ -17,10 +17,14 @@ const defaultResponses: {
     message: "You are not authorized to doo this",
     statusCode: 401,
   },
+  "invalid-jwtToken":{
+    message: "You are not authorized to doo this",
+    statusCode: 401,
+  }
 };
 
 export default function createServerError(
-  res:Response,
+  res: Response,
   code: code,
   message?: string,
   statusCode?: number
@@ -43,10 +47,11 @@ export default function createServerError(
   }
 
   res.status(errorStatusCode).json({
+    "error-type": "server-error",
     "error-code": errorCode,
-    "message": errorMessage,
-    "status": errorStatusCode,
-  })
+    message: errorMessage,
+    status: errorStatusCode,
+  });
 
-  return ;
+  return;
 }

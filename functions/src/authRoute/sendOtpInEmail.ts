@@ -8,13 +8,14 @@ import createServerResponse from "../responseObject/serverResponse";
 const sendOtpInEmail = async (req: Request, res: Response) => {
   const emailFormat = z.string().trim().email();
 
+
   if (!req.body.email) {
     // throw new HttpsError("invalid-argument","email not present!!");
     // res.status(403).json({ "error-code": "invalid-argument", message: "email not present",status:403 });
 
 
     res.json(
-      createServerError(res,"invalid-argument", "Please enter a valid email")
+      createServerError(res, "invalid-argument", "Please enter a valid email")
     );
     return;
   }
@@ -24,7 +25,7 @@ const sendOtpInEmail = async (req: Request, res: Response) => {
   const emailFormatResult = emailFormat.safeParse(emailInput);
 
   if (emailFormatResult.success === false) {
-      createServerError(res,"invalid-argument", "Please enter a valid email")
+    createServerError(res, "invalid-argument", "Please enter a valid email")
 
     return;
   }
@@ -48,10 +49,10 @@ const sendOtpInEmail = async (req: Request, res: Response) => {
   try {
     await sendEmailVerificationEmail(otp, email);
     // res.json( emailVerifyJwtToken(otp));
-    res.json(createServerResponse(emailVerifyJwtToken(otp,email)));
+    res.json(createServerResponse(emailVerifyJwtToken(otp, email)));
   } catch (error) {
     console.log(error);
-      createServerError(res,"internal-error")
+    createServerError(res, "internal-error")
   }
 };
 
