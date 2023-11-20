@@ -8,6 +8,9 @@ import createServerResponse from "../responseObject/serverResponse";
 const sendOtpInEmail = async (req: Request, res: Response) => {
   const emailFormat = z.string().trim().email();
 
+  console.log("req.body", req.body);
+  console.log("Hello from sendOtpInEmail.ts");
+
 
   if (!req.body.email) {
     // throw new HttpsError("invalid-argument","email not present!!");
